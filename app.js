@@ -119,7 +119,7 @@
     document.documentElement.lang = lang === "zh" ? "zh-Hans" : lang;
     document.documentElement.dataset.lang = lang;
     tagline.textContent = strings.tagline;
-    watermark.textContent = strings.watermark;
+    if (watermark) watermark.textContent = strings.watermark;
     sceneLabel.textContent = strings.sceneLabel;
     fullscreenBtn.textContent = strings.fullscreen;
     hint.textContent = strings.hint;
@@ -345,7 +345,25 @@
   function setProgress(value) {
     job.progress = value;
     engine.refresh(job);
+    model.recentSerious = [];
+    model.recentJokes = [];
+    model.lastSerious = "";
+    model.headline = "";
+    seedLog();
     paint(true);
+  }
+
+  function snapStage() {
+    if (!stage) return;
+    if (document.fullscreenElement === stage || document.body.classList.contains("is-card")) {
+      stage.style.paddingBottom = "";
+      return;
+    }
+    var cell = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--cell-px")) || 22;
+    stage.style.paddingBottom = "0px";
+    var height = stage.getBoundingClientRect().height;
+    var pad = Math.ceil(height / cell - 0.01) * cell - height;
+    stage.style.paddingBottom = (pad > 0.5 ? pad : 0) + "px";
   }
 
   function tick() {
@@ -476,7 +494,13 @@
   }
 
   document.addEventListener("keydown", onKey);
+  document.addEventListener("fullscreenchange", snapStage);
+  document.addEventListener("webkitfullscreenchange", snapStage);
   document.addEventListener("visibilitychange", keepAwake);
+  if (window.ResizeObserver && stage.firstElementChild) {
+    new ResizeObserver(snapStage).observe(stage.firstElementChild);
+  }
+  snapStage();
   document.addEventListener("pointerdown", keepAwake, { once: true });
   if (typeof navigator.share === "function") shareBtn.hidden = false;
 

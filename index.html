@@ -33,18 +33,27 @@
   </script>
 </head>
 <body>
-  <p class="watermark" id="watermark" aria-hidden="true">BUSY</p>
   <div class="page">
-    <header class="masthead">
-      <img class="mark" src="favicon.svg" width="48" height="48" alt="">
-      <h1>look-busy</h1>
-      <p class="tagline" id="tagline">Looks like you're working. You're not.</p>
+    <header class="head">
+      <div class="title">
+        <svg class="plug" viewBox="4 11 56 36" width="40" height="26" aria-hidden="true" focusable="false">
+          <g fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M31.5 15.2c3.9-.4 9.6-.5 13.1.1.9 3.9 1 13.9.2 18.3-3.6.7-9.4.6-13.4.1-.7-5-.6-13.6.1-18.5z"/>
+            <path d="M44.9 20.6c4-.2 8.6 0 12.3.3M45 28.6c4.1-.1 8.7 0 12.4.4"/>
+            <path d="M31.4 21.3c-2.6.2-4.8.3-6.6.9-.4 1.6-.3 3.6.1 5.2 1.9.5 4.2.6 6.5.6"/>
+            <path d="M24.9 24.8C19 25.2 14.3 27.9 12 32.2c-2.6 4.9.4 9.6 5.3 9.2 4.4-.4 4.6-5.6 1-6.4-4.1-.9-8.6 3.4-11.2 9.6"/>
+          </g>
+        </svg>
+        <h1>look-busy</h1>
+      </div>
       <div class="lang-switch" id="lang-switch" role="group" aria-label="Language">
         <button type="button" class="lang is-on" data-lang="en" aria-pressed="true">EN</button>
         <button type="button" class="lang" data-lang="ja" aria-pressed="false">日本語</button>
         <button type="button" class="lang" data-lang="zh" aria-pressed="false">中文</button>
       </div>
     </header>
+
+    <p class="tagline" id="tagline">Looks like you're working. You're not.</p>
 
     <div class="controls">
       <p class="scene-label" id="scene-label">Scene</p>
@@ -54,8 +63,10 @@
         <button type="button" role="radio" data-scene="export" aria-checked="false">Export</button>
         <button type="button" role="radio" data-scene="build" aria-checked="false">Build</button>
       </div>
-      <button type="button" class="primary" id="fullscreen">Go full screen</button>
-      <p class="hint" id="hint">Press B to switch scenes. Esc leaves full screen.</p>
+      <div class="go-row">
+        <button type="button" class="primary" id="fullscreen">Go full screen</button>
+        <p class="hint" id="hint">Press B to switch scenes. Esc leaves full screen.</p>
+      </div>
     </div>
 
     <div class="stage" id="stage">
@@ -135,11 +146,11 @@
       <a class="ghost" id="share-x" target="_blank" rel="noopener noreferrer" href="https://x.com/intent/tweet?text=Looks%20like%20you%27re%20working.%20You%27re%20not.&amp;url=https%3A%2F%2Fuselesssoso.github.io%2Flook-busy%2F">Share on X</a>
       <button type="button" class="ghost" id="copy">Copy link</button>
       <button type="button" class="ghost" id="share" hidden>Share</button>
+      <p class="copy-status" id="copy-status" role="status"></p>
     </div>
-    <p class="copy-status" id="copy-status" role="status"></p>
 
     <footer class="site-footer">
-      Signed <a href="https://github.com/uselesssoso">@uselesssoso</a>
+      <a href="https://github.com/uselesssoso">@uselesssoso</a>
     </footer>
   </div>
 
