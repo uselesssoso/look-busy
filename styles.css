@@ -3,59 +3,35 @@
    The console below is the dark tool and is separate from the paper. */
 
 @font-face {
-  font-family: "Courier Prime";
+  font-family: "Patrick Hand";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("fonts/courier-prime-400.woff2") format("woff2");
+  src: url("fonts/patrick-hand-400.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Courier Prime";
+  font-family: "Patrick Hand";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   font-display: swap;
-  src: url("fonts/courier-prime-700.woff2") format("woff2");
+  src: url("fonts/patrick-hand-500.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Courier Prime";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("fonts/courier-prime-400i.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Noto Serif SC";
+  font-family: "LXGW WenKai";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("fonts/noto-serif-sc-400.woff2") format("woff2");
+  src: url("fonts/lxgw-wenkai-400.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Noto Serif SC";
+  font-family: "LXGW WenKai";
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-display: swap;
-  src: url("fonts/noto-serif-sc-600.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Noto Serif JP";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("fonts/noto-serif-jp-400.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Noto Serif JP";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("fonts/noto-serif-jp-600.woff2") format("woff2");
+  src: url("fonts/lxgw-wenkai-500.woff2") format("woff2");
 }
 
 :root {
@@ -72,9 +48,10 @@
   --rule: var(--rule-green);
   --hair: 1px;
 
-  /* No generic monospace here. A generic can resolve to a CJK face and steal the glyphs. */
-  --type: "Courier Prime", "Courier New", Courier, "Nimbus Mono PS", Menlo, Consolas;
-  --type-cjk: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  /* Latin is Patrick Hand. CJK is LXGW WenKai, which includes kana.
+     No generic family before WenKai: a generic can resolve to another CJK face and steal the glyphs. */
+  --type: "Patrick Hand";
+  --type-cjk: "LXGW WenKai";
 
   --sans: "IBM Plex Sans", Inter, "Segoe UI", "Helvetica Neue", sans-serif;
   --mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
@@ -93,7 +70,6 @@
 }
 
 html[lang="ja"] {
-  --type-cjk: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --sans: "Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", sans-serif;
 }
 
@@ -115,7 +91,9 @@ body {
   min-height: 100dvh;
   color: var(--ink);
   font-family: var(--type), var(--type-cjk);
+  font-weight: 400;
   font-size: calc(var(--cell) / 1.2);
+  letter-spacing: normal;
   line-height: var(--cell);
   background-color: var(--paper);
   background-image:
@@ -161,7 +139,7 @@ p { margin: 0; }
 h1 {
   margin: 0;
   font: inherit;
-  font-weight: 700;
+  font-weight: 500;
   white-space: nowrap;
 }
 
@@ -205,10 +183,9 @@ h1 {
 
 html[lang="ja"] .tagline,
 html[lang="zh-Hans"] .tagline {
-  padding-left: 4px;
   font-size: calc(var(--cell) * 2 - 8px);
-  font-weight: 600;
-  letter-spacing: 8px;
+  font-weight: 500;
+  letter-spacing: normal;
 }
 
 .controls { margin-top: calc(var(--cell) * 2); }
@@ -236,13 +213,18 @@ html[lang="zh-Hans"] .tagline {
 }
 
 .segments button::before {
-  content: "[ ] ";
+  content: "[\2002]";
+  display: inline-block;
+  min-width: 1.85em;
+  margin-right: 0.35em;
   color: var(--ink);
+  letter-spacing: normal;
+  text-align: center;
   white-space: pre;
 }
 
 .segments button.is-on { color: var(--ink); }
-.segments button.is-on::before { content: "[x] "; }
+.segments button.is-on::before { content: "[x]"; letter-spacing: normal; }
 .segments button:hover { color: var(--ink); }
 
 .go-row {
@@ -258,7 +240,7 @@ html[lang="zh-Hans"] .tagline {
   padding: calc(var(--cell) / 2) var(--cell);
   background: var(--ink);
   color: var(--paper);
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
 }
 
@@ -776,9 +758,9 @@ body.is-card .log {
 
   html[lang="ja"] .tagline,
   html[lang="zh-Hans"] .tagline {
-    padding-left: 2px;
     font-size: calc(var(--cell) - 4px);
-    letter-spacing: 4px;
+    font-weight: 500;
+    letter-spacing: normal;
     line-height: calc(var(--cell) * 2);
   }
 
