@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>look-busy — Looks like you're working. You're not.</title>
+  <meta name="description" content="Looks like you're working. You're not.">
+  <link rel="canonical" href="https://uselesssoso.github.io/look-busy/">
+  <meta property="og:title" content="look-busy">
+  <meta property="og:description" content="Looks like you're working. You're not.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://uselesssoso.github.io/look-busy/">
+  <meta property="og:image" content="https://uselesssoso.github.io/look-busy/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A video render sitting at 87 percent. Looks like you're working. You're not.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="look-busy">
+  <meta name="twitter:description" content="Looks like you're working. You're not.">
+  <meta name="twitter:image" content="https://uselesssoso.github.io/look-busy/og.png">
+  <meta name="twitter:image:alt" content="A video render sitting at 87 percent. Looks like you're working. You're not.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    try {
+      var saved = localStorage.getItem("look-busy-lang");
+      var nav = (navigator.language || "").toLowerCase();
+      var lang = saved || (nav.indexOf("ja") === 0 ? "ja" : nav.indexOf("zh") === 0 ? "zh" : "en");
+      if (lang !== "en" && lang !== "ja" && lang !== "zh") lang = "en";
+      document.documentElement.lang = lang === "zh" ? "zh-Hans" : lang;
+      document.documentElement.dataset.lang = lang;
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <p class="watermark" id="watermark" aria-hidden="true">BUSY</p>
+  <div class="page">
+    <header class="masthead">
+      <img class="mark" src="favicon.svg" width="48" height="48" alt="">
+      <h1>look-busy</h1>
+      <p class="tagline" id="tagline">Looks like you're working. You're not.</p>
+      <div class="lang-switch" id="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang is-on" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" class="lang" data-lang="ja" aria-pressed="false">日本語</button>
+        <button type="button" class="lang" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
+    </header>
+
+    <div class="controls">
+      <p class="scene-label" id="scene-label">Scene</p>
+      <div class="segments" id="scenes" role="radiogroup" aria-labelledby="scene-label">
+        <button type="button" role="radio" class="is-on" data-scene="video" aria-checked="true">Video render</button>
+        <button type="button" role="radio" data-scene="train" aria-checked="false">Training</button>
+        <button type="button" role="radio" data-scene="export" aria-checked="false">Export</button>
+        <button type="button" role="radio" data-scene="build" aria-checked="false">Build</button>
+      </div>
+      <button type="button" class="primary" id="fullscreen">Go full screen</button>
+      <p class="hint" id="hint">Press B to switch scenes. Esc leaves full screen.</p>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="tool" id="tool" data-scene="video">
+        <div class="tool-bar">
+          <div class="tool-id">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="tool-name">RENDER</span>
+          </div>
+          <div class="tool-project" id="tool-project">cut_v3.mov</div>
+          <div class="tool-pct" id="tool-pct">0.0%</div>
+        </div>
+        <div class="tool-main">
+          <section class="scene scene-video" data-panel="video">
+            <div class="preview">
+              <div class="preview-art" id="preview-art"></div>
+              <div class="preview-shade" aria-hidden="true"></div>
+              <div class="hud">
+                <span class="hud-rec"><span class="hud-dot" aria-hidden="true"></span>REC</span>
+                <span class="hud-spec">4K · 24 fps</span>
+              </div>
+              <div class="hud-frame" id="hud-frame">0001 / 2880</div>
+            </div>
+            <div class="filmstrip" id="filmstrip"></div>
+            <div class="meta">
+              <div><span class="k" id="label-elapsed">Elapsed</span><span class="v" id="elapsed">00:00</span></div>
+              <div><span class="k" id="label-eta">ETA</span><span class="v" id="eta">00:00</span></div>
+              <div><span class="k" id="label-frame">frame</span><span class="v" id="frame-label">1 / 2880</span></div>
+            </div>
+          </section>
+
+          <section class="scene scene-train" data-panel="train" hidden>
+            <div class="stats">
+              <div><span class="k" id="label-epoch">epoch</span><span class="v" id="epoch">0</span></div>
+              <div><span class="k" id="label-loss">loss</span><span class="v" id="loss">0.0000</span></div>
+              <div><span class="k" id="label-step">step</span><span class="v" id="step">0</span></div>
+              <div><span class="k" id="label-lr">lr</span><span class="v" id="lr">0</span></div>
+            </div>
+            <canvas id="loss-chart" class="chart" width="640" height="180"></canvas>
+            <p class="subline" id="gpu-line"></p>
+          </section>
+
+          <section class="scene scene-export" data-panel="export" hidden>
+            <div class="stats stats-3">
+              <div><span class="k" id="label-rows">rows</span><span class="v" id="rows">0</span></div>
+              <div><span class="k" id="label-tp">throughput</span><span class="v" id="throughput">0</span></div>
+              <div><span class="k" id="label-bytes">transferred</span><span class="v" id="bytes">0 GB</span></div>
+            </div>
+            <div class="meter" aria-hidden="true"><div class="meter-fill" id="meter"></div></div>
+            <table class="batches">
+              <thead>
+                <tr>
+                  <th id="th-batch">batch</th>
+                  <th id="th-rows">rows</th>
+                  <th id="th-state">state</th>
+                </tr>
+              </thead>
+              <tbody id="batch-body"></tbody>
+            </table>
+          </section>
+
+          <section class="scene scene-build" data-panel="build" hidden>
+            <p class="prompt" id="build-prompt">$ build  main #4812</p>
+            <p class="subline" id="task-line"></p>
+          </section>
+
+          <div class="status-block">
+            <div class="bar" aria-hidden="true"><div class="bar-fill" id="bar"></div></div>
+            <p class="status-line" id="status"></p>
+          </div>
+          <ol class="log" id="log"></ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="ghost" id="share-x" target="_blank" rel="noopener noreferrer" href="https://x.com/intent/tweet?text=Looks%20like%20you%27re%20working.%20You%27re%20not.&amp;url=https%3A%2F%2Fuselesssoso.github.io%2Flook-busy%2F">Share on X</a>
+      <button type="button" class="ghost" id="copy">Copy link</button>
+      <button type="button" class="ghost" id="share" hidden>Share</button>
+    </div>
+    <p class="copy-status" id="copy-status" role="status"></p>
+
+    <footer class="site-footer">
+      Signed <a href="https://github.com/uselesssoso">@uselesssoso</a>
+    </footer>
+  </div>
+
+  <noscript>
+    <p>This page needs JavaScript. Nothing is sent anywhere.</p>
+    <p>このページは JavaScript がないと動きません。どこにも送信されません。</p>
+    <p>这个页面需要打开 JavaScript。什么都不会发出去。</p>
+  </noscript>
+
+  <script src="lines.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
